@@ -178,3 +178,60 @@ revNum str num = reverse (take num str) ++ take (length str - num) (reverse str)
 --Crie o tipo de dado Binario que pode ser Zero ou Um. Faça outro tipo de dado chamado Funcao que pode ser Soma2, Maior, Menor ou Mult2.
 --Implemente a função aplicar que recebe uma Funcao e dois Binarios. Seu retorno consiste em executar a operação desejada. 
 --Ex: aplicar Soma2 Um Um = Zero
+
+data Binary   = Zero | Ichi
+data Function = Sum2 | Maior | Menor | Mult2
+
+apply Sum2 Zero Zero = Zero
+apply Sum2 Zero Ichi = Ichi
+apply Sum2 Ichi Zero = Ichi
+apply Sum2 Ichi Ichi = Zero
+
+apply Maior Zero Zero = Zero
+apply Maior Zero Ichi = Ichi
+apply Maior Ichi Zero = Ichi
+apply Maior Ichi Ichi = Ichi
+
+apply Menor Zero Zero = Zero
+apply Menor Zero Ichi = Zero
+apply Menor Ichi Zero = Zero
+apply Menor Ichi Ichi = Ichi
+
+apply Mult2 Zero Zero = Zero
+apply Mult2 Zero Ichi = Zero
+apply Mult2 Ichi Zero = Zero
+apply Mult2 Ichi Ichi = Ichi
+
+--Faça uma função chamada binList, usando List comprehension, que recebe uma lista de binários (exercicio anterior) e retorna outra 
+--lista com elemento Somando Um e convertido para Int Ex: binList [Um Zero, Zero, Um, Zero] = [0,1,1,0,1]
+
+binToInt Zero = 0
+binToInt Ichi = 1
+  
+binList xs = [ binToInt (apply Sum2 x Ichi) | x <- xs]
+
+--Faça um novo tipo chamado Metros, que possui um value constructor de mesmo nome, cujos parâmetros são: um Int que representa a dimensão,
+--E um Double que representa o valor da medida e outro chamado metragemInvalida. Implemente as funções
+--areaQuadrado, areaRet, aareaCubo
+
+data Meter = Meter { dimension :: Int, value :: Double, invalidMeter:: Double }
+
+squareArea    (Meter dimension value _) = fromIntegral dimension * value
+rectangleArea (Meter dimension value _) = fromIntegral dimension * value
+cubeArea      (Meter dimension value _) = fromIntegral dimension * value
+
+data Valid = Hai String | Iie deriving Show 
+
+isNameValid name = if null name then Iie else Hai name
+
+--Faça o tipo Numero, que possui um value constructor Ok com um campo double e outro value constructor Erro com um campo String, Faça a 
+--função dividir que divida dois números e, caso o segundo seja 0, emita um erro(usar pattern matching) ex: dividir (Numero 6) (Numero 5) -> Numero 1.2
+
+data Number = Ok Double | Erro String deriving Show 
+
+divisao (Ok x) (Ok 0)     = Erro "You can't do it"
+divisao (Ok x) (Ok y)     = Ok (x/y)
+divisao (Ok _) (Erro _)   = Erro "You can't do it"
+divisao (Erro _) (Erro _) = Erro "You can't do it"
+divisao (Erro _) (Ok _)   = Erro "You can't do it"
+
