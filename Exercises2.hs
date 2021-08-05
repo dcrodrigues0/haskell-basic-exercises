@@ -1,6 +1,7 @@
 module Exercises2 where
 
 -- 3.1 Crie o tipo Resposta com os values constructors Sim ou Não. Faça as funções, seguintes determinando seus tipos explicitamente.
+import Distribution.SPDX.LicenseId (LicenseId(EUPL_1_2))
 data Answer = Yes | No
 
 -- Recebe via parametro uma Resposta. Retorna 0 para Nao e 1 para Sim 
@@ -272,4 +273,6 @@ convertAllToReal xs = [convertToReal x | x <- xs]
 
 convertToList xs = [x | x <- xs];
 
-maxMoeda moeda = moeda val
+getVal (Moeda val _)   = val
+
+maxMoeda moedas = maximum [ getVal moeda | moeda <- moedas]
