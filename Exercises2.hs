@@ -235,3 +235,41 @@ divisao (Ok _) (Erro _)   = Erro "You can't do it"
 divisao (Erro _) (Erro _) = Erro "You can't do it"
 divisao (Erro _) (Ok _)   = Erro "You can't do it"
 
+
+--Faça o tipo Cripto que possua doois values constructors Mensagem e Cifrado, ambos com um campo String e um value constructor Erro. 
+-- Faça as funções encriptar e decriptar
+
+data Cripto = Mensagem String | Cifrado String | Error deriving Show
+
+encrypt (Mensagem xs) = Mensagem [ succ x | x <- xs] 
+encrypt (Cifrado xs)  = Error
+encrypt _             = Error
+
+decrypt (Cifrado xs)  = Cifrado [ pred x | x <- xs]
+decrypt (Mensagem xs) = Error
+decrypt _             = Error
+
+encryptAll xs = [encrypt x | x <- xs]
+
+-- Faça um conversor de cambio para euro real e dolar
+
+data Cambio = Euro | Real | Dollar deriving Show
+data Moeda  = Moeda { val :: Double, cur :: Cambio} deriving Show
+
+convertToEuro (Moeda val Real)   = Moeda (val * 6.18)  Euro
+convertToEuro (Moeda val Dollar) = Moeda (0.84 / val)  Euro
+convertToEuro (Moeda val _)      = Moeda val Euro
+
+convertToDollar (Moeda val Real) = Moeda (0.19 / val)  Dollar
+convertToDollar (Moeda val Euro) = Moeda (val * 1.19)  Dollar
+convertToDollar (Moeda val _)    = Moeda val Dollar
+
+convertToReal (Moeda val Euro)    = Moeda (val * 6.18)  Real
+convertToReal (Moeda val Dollar)  = Moeda (val * 5.21)  Real
+convertToReal (Moeda val _)       = Moeda val Real
+
+convertAllToReal xs = [convertToReal x | x <- xs]
+
+convertToList xs = [x | x <- xs];
+
+maxMoeda moeda = moeda val
