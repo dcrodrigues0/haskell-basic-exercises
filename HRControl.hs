@@ -1,6 +1,6 @@
 module HRControl where
 
-
+import Data.Function
 data EmployType = Intern | Developer | Cordinator | Manager deriving Show
 data Employ     = Employ {employType :: EmployType, name :: String} deriving Show 
 
@@ -15,3 +15,16 @@ promote (Employ Intern     e) = Employ Developer e
 promote (Employ Developer  e) = Employ Cordinator e
 promote (Employ Cordinator e) = Employ Manager e
 promote (Employ _ e)          = Employ Manager e
+
+initialHire = Employ Intern
+
+meanSalary:: [Employ] -> Double 
+meanSalary em = (foldl calc 0 em) / (fromIntegral  $ length em) 
+    where calc salary employ = salary + getSalary employ
+
+contractALotOfInterns ps = map initialHire ps
+
+toPromote employ = employ
+    & promote
+    & getProfile
+
