@@ -4,12 +4,15 @@
 
 * Type
 <br/>
+
 ```
 cd projectDirectory
 ```
+
 ```
 ghci
 ```
+
 ```
 :l haskellArchiveDirectory/haskellArchive.hs
 ```
