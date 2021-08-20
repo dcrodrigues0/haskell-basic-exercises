@@ -9,10 +9,8 @@ isPrimeNumber primeNumber i
     | i * i > primeNumber = True
     | otherwise = isPrimeNumber primeNumber (i + 1)
 
-handlePrimeNumber :: [Int] -> [Int]
-handlePrimeNumber xs = [x | x <- xs, isPrimeNumber x 2]
 
 filterPrimeNumber:: [Int] -> [Int]
 filterPrimeNumber xs = xs
     & filter (> 1)
-    & handlePrimeNumber
+    & (\xs  -> [x | x <- xs, isPrimeNumber x 2])
