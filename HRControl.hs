@@ -45,8 +45,7 @@ instance ToJSON Project where
                 "\", budget: \"" ++ show (budget p) ++
                 "\", involved: " ++ show (involved p) ++ "}"
 
-instance Semigroup Monoid Project where
-    Project p1 <> Project p2 = Project 
+{- TODO CREATE A MONOID SEMIGROUP-}
 
 instance Monoid Project where
     mempty = Project "" 0 []
