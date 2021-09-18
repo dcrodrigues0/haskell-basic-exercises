@@ -2,6 +2,7 @@ module Project where
 
 import Data.Function
 import Data.Monoid
+import Data.Semigroup
 
 data EmployType = Intern | Developer | Cordinator | Manager deriving Show
 data Employ     = Employ {employType :: EmployType, name :: String} deriving Show 
@@ -10,8 +11,6 @@ getSalary (Employ Intern _)     = 1500.0
 getSalary (Employ Developer _)  = 4000.0
 getSalary (Employ Cordinator _) = 5000.0
 getSalary (Employ Manager _)    = 6000.0
-
-getProfile e = "{name: " ++ (name e) ++ "," ++ " employType: " ++ show (employType e) ++ "," ++ " salary: " ++ show (getSalary e) ++ "}"
 
 promote (Employ Intern     e) = Employ Developer e
 promote (Employ Developer  e) = Employ Cordinator e
@@ -25,10 +24,6 @@ meanSalary em = (foldl calc 0 em) / (fromIntegral  $ length em)
     where calc salary employ = salary + getSalary employ
 
 contractALotOfInterns ps = map initialHire ps
-
-toPromote employ = employ
-    & promote
-    & getProfile
 
 data Project = Project {projectName :: String, budget :: Double, involved :: [Int]} deriving Show
 
@@ -45,9 +40,13 @@ instance ToJSON Project where
                 "\", budget: \"" ++ show (budget p) ++
                 "\", involved: " ++ show (involved p) ++ "}"
 
-{- TODO CREATE A MONOID SEMIGROUP-}
+instance Semigroup Project where
+    (<>) (Project name1 budget1 inv1) (Project name2 budget2 inv2) 
+        = Project (name1 ++ ", " ++ name2) (budget1 + budget2) (inv1 ++ inv2)
 
 instance Monoid Project where
     mempty = Project "" 0 []
-    mappend (Project name1 budget1 inv1) (Project name2 budget2 inv2) 
-        = Project (name1 ++ ", " ++ name2) (budget1 + budget2) (inv1 ++ inv2)
+
+toPromote employ = employ
+    & promote
+    & toJSON
