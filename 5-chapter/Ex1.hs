@@ -10,6 +10,9 @@ data ProductEx = ProductEx { value :: Double, tp :: TypeProduct} | NA deriving S
 instance Semigroup ProductEx where
   (<>) (ProductEx value1 typeProduct1) (ProductEx value2 typeProduct2) 
     = ProductEx (value1 + value2) Total
+  (<>) (ProductEx value1 typeProduct1) NA = ProductEx value1 typeProduct1
+  (<>) NA (ProductEx value1 typeProduct1) = ProductEx value1 typeProduct1
+  (<>) NA NA = NA
 
 instance Monoid ProductEx where
   mempty = NA
@@ -24,4 +27,4 @@ sumProductValue xs = xs
     & map getProductExValue
     & foldl (+) 0    
 
--- Using Monoid i can calc products value in using one Function
+-- Using Monoid i can calc products value just using one Function
