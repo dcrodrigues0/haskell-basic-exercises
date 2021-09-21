@@ -14,13 +14,14 @@ instance Semigroup ProductEx where
 instance Monoid ProductEx where
   mempty = NA
 
--- Sem usar monoid
+-- Building the same answer without monoid
 
-getTypeProductValue:: ProductEx -> Double
-getTypeProductValue (ProductEx x _) = x
+getProductExValue:: ProductEx -> Double
+getProductExValue (ProductEx x _) = x
 
 sumProductValue:: [ProductEx] -> Double
-sumProductValue xs = foldl (+) 0 (getTypeProductValue xs)
+sumProductValue xs = xs 
+    & map getProductExValue
+    & foldl (+) 0    
 
--- showProductExTotal::[Double] -> ProductEx
--- showProductExTotal xs = ProductEx showProductExTotal xs Total
+-- Using Monoid i can calc products value in using one Function
