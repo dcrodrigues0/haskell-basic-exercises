@@ -9,3 +9,8 @@ instance OddEven Int where
   decide x 
     | even x = Even
     | odd x  = Odd
+
+instance OddEven [a] where
+  decide x
+    | even $ length x = Even
+    | odd $ length x = Odd
