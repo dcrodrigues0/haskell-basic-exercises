@@ -2,7 +2,8 @@ module Ex7 where
 
 data Tree a = NA | Leaf a | Branch a (Tree a) (Tree a) deriving Show
 
-mapp :: Tree e a -> [a]
-mapp NA = []
-mapp Leaf x = x 
-mapp Branch x y z = mapp 1 ++ [x] ++ mapp z
+
+mapp:: (a -> a) -> Tree a
+mapp a = Branch a (Branch a (Leaf a) (Leaf a))
+
+
